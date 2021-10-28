@@ -39,7 +39,7 @@ window.addEventListener("load", ()=>{
      icon.src = "./icon/animated/snowy-6.svg"
     }else if (id < 800){
      icon.src = "./icon/animated/cloudy.svg"
-    }else if (id === 800){
+    }else if (id >= 800){
      icon.src = "./icon/animated/day.svg"
     }
     let celsius = (temp - 273)
