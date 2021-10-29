@@ -13,10 +13,9 @@ window.addEventListener("load", ()=>{
    alert.style.display="none"
    long = position.coords.longitude
    lat =position.coords.latitude
-   const proxy = "https://cors-anywhere.herokuapp.com/"
-  //  const api = `${proxy}api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=aa7a74c0b91bf54da9fcc12f098b2f5a`
-  const key = "aa7a74c0b91bf54da9fcc12f098b2f5a"
-  const api = "api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid={aa7a74c0b91bf54da9fcc12f098b2f5a}"
+  //  const proxy = "https://cors-anywhere.herokuapp.com/"
+   const api = `https://api.weatherbit.io/v2.0/current?lat=${lat}&lon=${long}&key=ccda3705afc44becb4a9602bd0ced898&include=minutely`
+  
    console.log(api);
    fetch(api)
    .then(response => {
@@ -24,34 +23,35 @@ window.addEventListener("load", ()=>{
     return response.json()
    })
    .then(data => {
-    console.log(data.weather);
-    const {temp} =  data.main
-    const city = data.name
-    const {id, description} = data.weather[0]
-    tempDeg.textContent = temp
+    console.log(data.data[0]);
+    const temp =  data.data[0].temp
+    const trueTemp = Math.floor(temp)
+    const city = data.data[0].city_name
+    const {code, description} = data.data[0].weather
+    tempDeg.textContent = trueTemp
     location.textContent = city
     description1.textContent = description
-    if(id < 250){
+    if(code < 250){
      icon.src = "./icon/animated/thunder.svg"
-    }else if (id < 350){
+    }else if (code < 350){
      icon.src = "./icon/animated/rainy-2.svg"
-    }else if (id < 550){
+    }else if (code < 550){
      icon.src = "./icon/animated/rainy-7.svg"
-    }else if (id < 650){
+    }else if (code < 650){
      icon.src = "./icon/animated/snowy-6.svg"
-    }else if (id < 800){
+    }else if (code < 800){
      icon.src = "./icon/animated/cloudy.svg"
-    }else if (id >= 800){
+    }else if (code >= 800){
      icon.src = "./icon/animated/day.svg"
     }
-    let celsius = (temp - 273)
+    let farenhajt = (temp + 273)
    degreeSec.addEventListener("click",()=>{
-     if(span.textContent === "F"){
-      span.textContent = "C"
-       tempDeg.textContent =Math.round(celsius)
-     }else{
+     if(span.textContent === "C"){
       span.textContent = "F"
-      tempDeg.textContent =temp
+      tempDeg.textContent =farenhajt
+     }else{
+      span.textContent = "C"
+      tempDeg.textContent =trueTemp
      }
    })
    })
